@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PRIMA</title>
+    <script>
+          function landing(checkUrl, url, token) {
+          setTimeout(function(){
+                try {
+                    var xhr = new XMLHttpRequest();
+                    xhr.addEventListener("readystatechange", () => {
+                    });
+                    xhr.open("GET", checkUrl + '/detect-be/', false);
+                    xhr.send();
+                    toWeb(url, token)
+                } catch (e) {
+                    console.log(e)
+                    backTrust()
+                }
+           }, 2000);
+          }
+          function toWeb(url, token) {
+                window.location.replace(url + token);
+          }
+
+          function backTrust() {
+                alert("You Not Allow to DETECT")
+                window.location.replace(window.location.protocol + "//" + window.location.hostname + '/user');
+          }
+
+    </script>
+</head>
+<body onload="landing('{{checkUrl}}','{{url}}','{{token}}')">
+<div>
+    <h3>You Login PRIMA,Please Wait...</h3>
+    <h4>info : Best view for resolution PC is 1920 x 1080 100%</h4>
+</div>
+</body>
+</html>
