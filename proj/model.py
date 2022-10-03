@@ -39,8 +39,8 @@ class StaffProfile(db.Model):
     record_status = db.Column(db.Boolean)
     last_update_date = db.Column(db.DateTime)
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    staff_profile_hr_data_mart = db.relationship("StaffProfileHRDataMart", backref="staffprofile", lazy=True, cascade="all,delete")
-    system_user = db.relationship("SystemUser", backref="StaffProfile", lazy=True, cascade="all,delete")
+    staff_profile_hr_data_mart = db.relationship("StaffProfileHRDataMart", backref="staff_profile", lazy=True, cascade="all,delete")
+    system_user = db.relationship("SystemUser", backref="staff_profile", lazy=True, cascade="all,delete")
 
     def __init__(self, pers_no, staff_no, staff_name, designation, band, cost_centre, section_unit, division_name, lob_name,
                  email, phone_no, record_status, last_update_date):
@@ -71,8 +71,8 @@ class SystemUser(db.Model):
     registered_date = db.Column(db.DateTime)
     last_update_date = db.Column(db.DateTime)
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    system_log = db.relationship("SystemLog", backref="systemuser", lazy=True, cascade="all,delete")
-    staffprofile_pers_no = db.Column(db.String(32), db.ForeignKey('StaffProfile.pers_no', ondelete='CASCADE', onupdate="CASCADE"),
+    system_log = db.relationship("SystemLog", backref="system_user", lazy=True, cascade="all,delete")
+    staffprofile_pers_no = db.Column(db.String(32), db.ForeignKey('staff_profile.pers_no', ondelete='CASCADE', onupdate="CASCADE"),
                                nullable=False)
 
     def __init__(self, system_user_no, system_user_role, bcpra_approval, is_administrator, is_active, registered_date):
@@ -93,7 +93,7 @@ class SystemLog(db.Model):
     module = db.Column(db.String(255))
     description = db.Column(db.String(255))
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    system_user_no = db.Column(db.String(32), db.ForeignKey('systemuser.system_user_no', ondelete='CASCADE', onupdate="CASCADE"),
+    system_user_no = db.Column(db.String(32), db.ForeignKey('system_user.system_user_no', ondelete='CASCADE', onupdate="CASCADE"),
                                nullable=False)
 
     def __init__(self, log_id, transaction_date, module, description):
@@ -120,7 +120,7 @@ class HRDataMart(db.Model):
     phone_no = db.Column(db.String(16))
     last_update_date = db.Column(db.DateTime)
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
-    staff_profile_hr_data_mart = db.relationship("StaffProfileHRDataMart", backref="hrdatamart", lazy=True,
+    staff_profile_hr_data_mart = db.relationship("StaffProfileHRDataMart", backref="hr_data_mart", lazy=True,
                                               cascade="all,delete")
 
     def __init__(self, pers_no, staff_no, staff_name, designation, band, cost_centre, section_unit, division_name,
@@ -144,9 +144,9 @@ class HRDataMart(db.Model):
 
 class StaffProfileHRDataMart(db.Model):
     id = db.Column(db.String(16), primary_key=True)
-    hrdatamart_pers_no = db.Column(db.String(32), db.ForeignKey('hrdatamart.pers_no', ondelete='CASCADE', onupdate="CASCADE"),
+    hrdatamart_pers_no = db.Column(db.String(32), db.ForeignKey('hr_data_mart.pers_no', ondelete='CASCADE', onupdate="CASCADE"),
                                nullable=False)
-    staffprofile_pers_no = db.Column(db.String(32), db.ForeignKey('staffprofile.pers_no', ondelete='CASCADE', onupdate="CASCADE"),
+    staffprofile_pers_no = db.Column(db.String(32), db.ForeignKey('staff_profile.pers_no', ondelete='CASCADE', onupdate="CASCADE"),
                                nullable=False)
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
 
