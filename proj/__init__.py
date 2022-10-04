@@ -21,7 +21,10 @@ db.create_all()
 # ---
 
 # initiate and register blueprints
-# from proj.views.api import bp_api
-# app.register_blueprint(bp_api, url_prefix='/api')
+from proj.views.proposal_approval import bp_proposal_approval
+app.register_blueprint(bp_proposal_approval, url_prefix='/approval')
+
+from proj.views.proposal import bp_proposal
+app.register_blueprint(bp_proposal, url_prefix='/proposal')
 
 # ---
